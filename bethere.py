@@ -24,6 +24,16 @@ def check_location(event_id):
         return "wow you actually made it"
     return "wow youre late wow"
 
+# post a new charity/money amount configuration
+# request:
+# {
+#   username: string
+#   amount: float  
+# }
+@app.route("/payment", methods=['POST'])
+def send_payment():
+    # pass it off to the payment thing here
+    pass
 
 if __name__ == "__main__":
     app.run()
