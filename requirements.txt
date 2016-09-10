@@ -2,3 +2,4 @@ flask
 Flask-MongoAlchemy
 apns
 geopy
+--upgrade google-api-python-client
