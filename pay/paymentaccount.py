@@ -1,13 +1,10 @@
-# This is written for PYTHON 3
-# Don't forget to install requests package
-
 import requests
 import json
 
 import os
 
-# these should definitely be environmental variables
-customerId = '57d42deee63c5995587e8696'
+# charity account's id
+customerId = '57d44dcbe63c5995587e86d5'
 apiKey = os.environ['APIKEY']
 
 def createcustomer(first_name, last_name, street_number, street_name, city, state, zipcode):
@@ -35,13 +32,13 @@ def createcustomer(first_name, last_name, street_number, street_name, city, stat
 
 
     
-def createaccount():
+def createaccount(nickname):
     url = 'http://api.reimaginebanking.com/customers/{}/accounts?key={}'.format(customerId,apiKey)
     payload = {
       "type": "Savings",
-      "nickname": "test",
-      "rewards": 10000,
-      "balance": 10000,	
+      "nickname": nickname,
+      "rewards": 0,
+      "balance": 0,	
     }
     # Create a Savings Account
     response = requests.post( 
