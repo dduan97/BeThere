@@ -1,5 +1,6 @@
 from flask import Flask, request
 from geopy.distance import vincenty
+import json
 app = Flask(__name__)
 
 @app.route("/")
@@ -14,15 +15,17 @@ def hello():
 # }
 @app.route("/event/<int:event_id>/location", methods=['POST'])
 def check_location(event_id):
-    lat = request.data.latitude
-    lon = request.data.longitude
+    body = json.loads(request.data)
+    print body, type(body)
+    lat = body["latitude"]
+    lon = body["longitude"]
     # something with gcal here
     event_coords = (40.7128, -74.0059)
     current_coords = (float(lat), float(lon))
 
     if vincenty(event_coords, current_coords).feet < 100:
-        return "wow you actually made it"
-    return "wow youre late wow"
+        return "true"
+    return "false"
 
 # post a new charity/money amount configuration
 # request:
