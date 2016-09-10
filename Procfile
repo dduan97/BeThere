@@ -1,1 +1,1 @@
-web: python thread_manager.py
+web: python thread_manager.py $PORT
