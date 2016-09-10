@@ -1,4 +1,3 @@
-from __future__ import print_function
 import httplib2
 import os
 
@@ -51,7 +50,7 @@ def get_credentials():
         print('Storing credentials to ' + credential_path)
     return credentials
 
-def main():
+def get_events():
     """Shows basic usage of the Google Calendar API.
 
     Creates a Google Calendar API service object and outputs a list of the next
@@ -70,12 +69,12 @@ def main():
         calendarId='primary', timeMin=now, timeMax=tomorrow,singleEvents=True,
         orderBy='startTime').execute()
     events = eventsResult.get('items', [])
-    print(type(events))
+    print type(events)
     if not events:
-         print('No upcoming events found.')
+        return None
     else:
-        print(json.dumps(events))
+        return events
 
 
 if __name__ == '__main__':
-    main()
+    get_events()
