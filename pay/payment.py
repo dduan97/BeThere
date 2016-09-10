@@ -72,4 +72,3 @@ def donate(amount, charity_nickname):
         else:
             return True
         
-donate(5, "World Wildlife Fund")
