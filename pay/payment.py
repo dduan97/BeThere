@@ -33,3 +33,19 @@ def addFunds(amount):
     print (response)
     if response.status_code == 201:
     	print('deposit added')
+
+def donate(amount, charity_nickname):
+    
+    # find which ID to get by getting all accounts w/ id
+    url = 'http://api.reimaginebanking.com/customers/{}/accounts?key={}'.format(charityId,apiKey)
+    
+    response = requests.post (
+        url,
+        headers={'accept':'application/json'},
+        )
+    if response.status_code == 404:
+        print("customer id does not exist")
+    else:
+        data = response.json()
+        print(data)
+    
