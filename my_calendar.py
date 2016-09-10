@@ -77,4 +77,4 @@ def get_events():
 
 
 if __name__ == '__main__':
-    get_events()
+    print get_events()

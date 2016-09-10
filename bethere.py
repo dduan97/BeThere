@@ -1,5 +1,7 @@
+import datetime
 from flask import Flask, request
 from geopy.distance import vincenty
+from my_calendar import get_events
 import json
 app = Flask(__name__)
 
@@ -37,6 +39,32 @@ def check_location(event_id):
 def send_payment():
     # pass it off to the payment thing here
     pass
+
+def get_event_info():
+    events = get_events()
+    current = datetime.datetime.now()
+    # list of (id, name, datetime) for all the events
+    event_ids_times = map(lambda x: {
+            "id": x["id"], 
+            "name": x["summary"], 
+            "start_time": x["start"]["dateTime"][:-6],
+            "recurring_event_color": x["recurring_event_color"] if "recurringEventID" in events else None
+        }, events)
+    return event_ids_times
+
+# route to retrieve events for the next week
+# response:
+# 
+@app.route("/events", methods=['GET'])
+def send_events():
+    event_info = get_event_info()
+    # now we have to map the things to the whats
+    recurring_ids = list(set([x["recurring_event_color"] for x in event_info]))
+    for item in event_info:
+        item["recurring_event_color"] = recurring_ids.index(item["recurring_event_color"])
+    print event_info
+    return json.dumps(event_info)
+
 
 if __name__ == "__main__":
     app.run()
