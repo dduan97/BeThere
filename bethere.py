@@ -4,8 +4,8 @@ from geopy.distance import vincenty
 from geopy.geocoders import Nominatim
 from my_calendar import get_events
 import json
-app = Flask(__name__)
 
+from intro_to_flask import app
 import os
 
 @app.route("/")
