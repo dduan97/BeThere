@@ -5,7 +5,7 @@ import os
 import datetime
 
 # charity account's id
-charityId = '57d44dcbe63c5995587e86d5'
+charityAccount = '57d44dcbe63c5995587e86d5'
 # user's id
 userId = '57d42deee63c5995587e8696' 
 
@@ -30,22 +30,46 @@ def addFunds(amount):
     	data=json.dumps(deposit),
     	headers={'content-type':'application/json'},
     	)
-    print (response)
     if response.status_code == 201:
     	print('deposit added')
 
 def donate(amount, charity_nickname):
     
     # find which ID to get by getting all accounts w/ id
-    url = 'http://api.reimaginebanking.com/customers/{}/accounts?key={}'.format(charityId,apiKey)
-    
-    response = requests.post (
+    url = 'http://api.reimaginebanking.com/customers/{}/accounts?key={}'.format(charityAccount,apiKey)
+    response = requests.get (
         url,
         headers={'accept':'application/json'},
         )
-    if response.status_code == 404:
-        print("customer id does not exist")
+    if response.status_code != 200:
+        print(response.status_code)
     else:
         data = response.json()
-        print(data)
-    
+        charity_id = None
+        for user in data:
+            if charity_nickname == user["nickname"]:
+                charity_id = user["_id"]
+                break
+    # if we know what to send money to, let's send the money
+    if charity_id:
+        url = 'http://api.reimaginebanking.com/accounts/{}/transfers?key={}'.format(userAccountID, apiKey)
+        transfer= {
+            "medium": "balance",
+            "payee_id": charity_id,
+            "amount": amount,
+            "transaction_date": str(datetime.datetime.today().date()),
+            "description": "I was late and this is my punishment"
+        }
+        response = requests.post (
+            url, 
+            data = json.dumps(transfer),
+            headers={'content-type':'application/json'},
+            )
+        if response.status_code != 201:
+            print(response.status_code)
+            return False
+        # was successful, return true
+        else:
+            return True
+        
+donate(5, "World Wildlife Fund")
