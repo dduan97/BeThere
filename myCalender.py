@@ -74,7 +74,7 @@ def main():
     if not events:
          print('No upcoming events found.')
     else:
-        print(json.dumps(events),  indent=4, sort_keys=True)
+        print(json.dumps(events))
 
 
 if __name__ == '__main__':
