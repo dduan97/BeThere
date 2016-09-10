@@ -5,6 +5,8 @@ from my_calendar import get_events
 import json
 app = Flask(__name__)
 
+import os
+
 @app.route("/")
 def hello():
     return "Hello World!"
