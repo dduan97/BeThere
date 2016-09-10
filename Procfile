@@ -1,1 +1,1 @@
-web: ./RUN
+web: python thread_manager.py $PORT
