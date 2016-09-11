@@ -48,20 +48,18 @@ def createuser():
 
 def getCharity():
     user = collection.find_one()
-    return user["charity"]
+    return str(user["charity"])
+
+# get the specified field, unsure which type
+def getUserInfo(field):
+    user = collection.find_one()
+    return user[field]
     
 # update field in user
-# def updateDonated(newvalue):
-#     result = db.user.update_one(
-#         {
-#             {"name" : "Bill Clinton"},
-#             { 
-#                 "$set": {
-#                     "donated" : 5
-#                     },
-#             }
-            
-#         }
-#     )
-#     print (result)
-
+def update(field, newvalue):
+    result = collection.update_one(
+            {'name' : 'Bill Clinton'},
+            { '$set': {field: newvalue}}
+    )
+    print (result.matched_count)
+update("donated", 20)

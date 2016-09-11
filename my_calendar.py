@@ -67,7 +67,7 @@ def get_events():
     print "getting events starting from {}".format(now)
     eventsResult = service.events().list(
         calendarId='primary', timeMin=now, timeMax=next_week,singleEvents=True,
-        orderBy='startTime').execute()
+        orderBy='startTime',fields='items(id,location,recurringEventId,start,summary)').execute()
     events = eventsResult.get('items', [])
     if not events:
         print "no events to be found"
