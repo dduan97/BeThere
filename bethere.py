@@ -77,7 +77,12 @@ def check_location(event_id):
     # and post to twitter
     try: 
         tweetpunishment(event_name, 1, charity)
-    except TweepError:
+    except TweepError as e:
+        print "Tweep error!"
+        print "Error code is {}".format(e.message[0]['code'])
+        print "Dump everything we can!"
+        print e
+        print e.message
         pass
     print "twat"
 
