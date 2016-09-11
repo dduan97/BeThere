@@ -48,7 +48,6 @@ class EventInfo(object):
 
     # retrieve the event info and then search by id, returning (lat, long)
     def get_location_by_event_id(self, event_id):
-        self.retrieve_event_info()
         # now we search through and look for event id
         for item in self.event_info:
             if item["id"] == event_id:
@@ -59,7 +58,6 @@ class EventInfo(object):
     def get_name_by_event_id(self, event_id):
         print "future events: ", self.event_ids_times
         print "past events: ", self.past_events
-        self.retrieve_event_info()
         # now we search through and look for event id
         for item in self.event_ids_times:
             print item[0]
