@@ -61,7 +61,7 @@ def get_events():
     service = discovery.build('calendar', 'v3', http=http)
     
     # for getting only one day
-    now = (datetime.datetime.utcnow() + datetime.timedelta(minutes=1)).isoformat() + 'Z' # 'Z' indicates UTC time
+    now = (datetime.datetime.utcnow()).isoformat() + 'Z' # 'Z' indicates UTC time
     next_week =  (datetime.datetime.utcnow() + datetime.timedelta(days=7)).isoformat() + 'Z'
     # get the events of the day
     print "getting events starting from {}".format(now)

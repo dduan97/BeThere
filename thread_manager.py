@@ -42,7 +42,7 @@ class PushThread(Thread):
             print "running push thread"
             time.sleep(10)
             # get the current time and the time of the first event
-            current = datetime.datetime.utcnow() - datetime.timedelta(hours=4) + datetime.timedelta(minutes=1)
+            current = datetime.datetime.utcnow() - datetime.timedelta(hours=4)
             print "getting event"
             print event_ids_times
             if event_ids_times:

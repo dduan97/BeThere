@@ -58,7 +58,7 @@ class EventInfo(object):
                 return item["location"]
                 # now search through past events
         for item in self.past_events:
-            if item["id"] == event_id:
+            if item[0] == event_id:
                 print "location found in past events"
                 return item[1]
         return None
