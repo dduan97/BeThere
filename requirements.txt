@@ -6,4 +6,5 @@ google-api-python-client
 requests
 service_identity
 tweepy
+pymongo
 
