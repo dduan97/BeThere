@@ -5,7 +5,11 @@ from geopy.geocoders import Nominatim
 from my_calendar import get_events
 from event_lock import EventLock, OneEventToRuleThemAll
 from event_push import send_notif
+from pymongo_connection import getCharity
+from pay.payment import donate
+
 import json
+
 app = Flask(__name__)
 
 import os
@@ -44,10 +48,18 @@ def check_location(event_id):
         return "true"
     # then we send a push and then send payment
     print "event id that we're looking for the name for: ", event_id
+
     EventLock.acquire()
     event_name = OneEventToRuleThemAll.get_name_by_event_id(event_id)
     EventLock.release()
-    str_to_send = "You were late to event " + event_name if event_name else "You were late to your event"
+
+    charity = getCharity()
+
+    late_event = "You were late to event " + event_name if event_name else "You were late to your event"
+    donate_charity = " and donated to " + charity
+
+    # now actually donate the money
+
     send_notif(message=str_to_send, silent=False)
     return "false"
 
@@ -87,17 +99,17 @@ def send_events():
     for item in event_info:
         item["recurring_event_color"] = recurring_ids.index(item["recurring_event_color"])
         item["location_name"] = item["location"]
-        # map the locations to the coords
-        geolocator = Nominatim()
-        print item["location"]
-        location = geolocator.geocode(item["location"])
-        if not location:
-            print item["location_name"], "fucked up geopy..."
-            location = geolocator.geocode("1350 Chestnut Street, Philadelphia, PA, United States")
-        item["location"] = {    
-            "latitude": location.latitude,
-            "longitude": location.longitude
-        }
+        # # map the locations to the coords
+        # geolocator = Nominatim()
+        # print item["location"]
+        # location = geolocator.geocode(item["location"])
+        # if not location:
+        #     print item["location_name"], "fucked up geopy..."
+        #     location = geolocator.geocode("1350 Chestnut Street, Philadelphia, PA, United States")
+        # item["location"] = {    
+        #     "latitude": location.latitude,
+        #     "longitude": location.longitude
+        # }
     print event_info
     return json.dumps(event_info)
 

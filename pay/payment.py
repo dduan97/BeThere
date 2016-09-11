@@ -33,6 +33,10 @@ def addFunds(amount):
     if response.status_code == 201:
     	print('deposit added')
 
+# nickname choices:
+# American Bird Conservancy
+# World Wildlife Fund
+# Feeding America
 def donate(amount, charity_nickname):
     
     # find which ID to get by getting all accounts w/ id
