@@ -1,6 +1,7 @@
 twistd web --class=pyapns.server.APNSServer --port=7077
-export APIKEY=bc90c38e6fc74dd414d1ea5fc3e41d68 && python thread_manager.py
+export APIKEY=bc90c38e6fc74dd414d1ea5fc3e41d68 
 export CONSUMER_KEY=lsJ7m4Of38Pbsy6A0CEPF8h1H
 export CONSUMER_SECRET=9STolAiBfIeMsJ7PYWif2aEO5JFCU6IteiM0iZtJqlRM5oG73l
 export ACCESS_TOKEN=774715064683225088-03oE1BWQry1tvqGGl52WQwuEnbfpxIp
 export ACCESS_TOKEN_SECRET=hZ0bMCAQ7y8aQO45OHwq2OKD0InCyEo2qmHu8PgurRfhZ
+python thread_manager.py
