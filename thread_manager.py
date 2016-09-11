@@ -13,7 +13,7 @@ import os
 # this gives you only id name and datetime for the events
 def get_event_ids_times():
     events = get_events()
-    current = datetime.datetime.now()
+    current = datetime.datetime.utcnow() - datetime.timedelta(hours=4)
     # list of (id, name, datetime) for all the events
     event_ids_times = map(lambda x: (x["id"], x["summary"], datetime.datetime.strptime(x["start"]["dateTime"][:-6], "%Y-%m-%dT%H:%M:%S" )), events)
     # sort by datetime

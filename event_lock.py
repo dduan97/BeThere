@@ -15,7 +15,7 @@ class EventInfo(object):
     def retrieve_event_ids_times(self):
         print "EventInfo object retrieving events"
         events = get_events()
-        current = datetime.datetime.now()
+        current = datetime.datetime.utcnow() - datetime.timedelta(hours=4)
         # list of (id, name, datetime) for all the events
         event_ids_times = map(lambda x: (x["id"], x["summary"], datetime.datetime.strptime(x["start"]["dateTime"][:-6], "%Y-%m-%dT%H:%M:%S" )), events)
         # sort by datetime
@@ -53,6 +53,16 @@ class EventInfo(object):
             if item["id"] == event_id:
                 # get the lat/long and return it
                 return item["location"]
+        return None
+
+    def get_name_by_event_id(self, event_id):
+        self.retrieve_event_info()
+        # now we search through and look for event id
+        for item in self.event_ids_times:
+            print item[0]
+            if item[0] == event_id:
+                # get the lat/long and return it
+                return item[1]
         return None
 
 # now we instantiate an object of this class

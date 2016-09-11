@@ -64,7 +64,7 @@ def get_events():
     now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
     next_week =  (datetime.datetime.utcnow() + datetime.timedelta(days=7)).isoformat() + 'Z'
     # get the events of the day
-    
+    print "getting events starting from {}".format(now)
     eventsResult = service.events().list(
         calendarId='primary', timeMin=now, timeMax=next_week,singleEvents=True,
         orderBy='startTime').execute()

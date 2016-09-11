@@ -4,6 +4,7 @@ from geopy.distance import vincenty
 from geopy.geocoders import Nominatim
 from my_calendar import get_events
 from event_lock import EventLock, OneEventToRuleThemAll
+from event_push import send_notif
 import json
 app = Flask(__name__)
 
@@ -32,13 +33,18 @@ def check_location(event_id):
     coords = OneEventToRuleThemAll.get_location_by_event_id(event_id)
     EventLock.release()
     if not coords:
+        print "could not find coordinates for event id ", event_id
         return "None"
 
     event_coords = (coords["latitude"], coords["longitude"])
     current_coords = (float(lat), float(lon))
 
     if vincenty(event_coords, current_coords).feet < 100:
+        # then we don't do anything
         return "true"
+    # then we send a push and then send payment
+    str_to_send = "You were late to "
+    send_notif(msg="You missed")
     return "false"
 
 # post a new charity/money amount configuration
