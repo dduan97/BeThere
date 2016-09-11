@@ -1,1 +1,1 @@
-web: python thread_manager.py 
+web: ./RUN
