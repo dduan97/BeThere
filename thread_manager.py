@@ -50,20 +50,17 @@ class PushThread(Thread):
                 if current > event_ids_times[0][-1]:
                     # then it's time to push
                     print "time to push", event_ids_times[0][1]
+                    event_id = event_ids_times[0][0]
                     past_events.append(event_ids_times[0])
                     event_ids_times.pop(0)
-                    send_notif(silent=True)
-                    # now we update the event info thing
-                    EventLock.acquire()
-                    event_ids_times = OneEventToRuleThemAll.retrieve_event_ids_times()
-                    EventLock.release()
+                    send_notif(silent=True, event_id=event_id)
             else:
                 print "no events left"
-                # now we get the new events
-                EventLock.acquire()
-                event_ids_times = OneEventToRuleThemAll.retrieve_event_ids_times()
-                EventLock.release()
                 print event_ids_times
+
+            EventLock.acquire()
+            event_ids_times = OneEventToRuleThemAll.retrieve_event_ids_times()
+            EventLock.release()
 
 
 # start the two threads
