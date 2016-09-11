@@ -44,6 +44,8 @@ def check_location(event_id):
     current_coords = (float(lat), float(lon))
 
     if vincenty(event_coords, current_coords).feet < 6000:
+        print "we made it woohoo"
+        send_notif(message="You made it! what a surprise", silent=False)
         # then we don't do anything
         return "true"
     # then we send a push and then send payment
