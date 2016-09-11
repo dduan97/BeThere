@@ -43,17 +43,19 @@ class PushThread(Thread):
             print "running push thread"
             time.sleep(30)
             # get the current time and the time of the first event
-            current = datetime.datetime.now()
+            current = datetime.datetime.utcnow() - datetime.timedelta(hours=4)
             print "getting event"
             print event_ids_times
             if event_ids_times:
-                print "checking event"
+                print "checking event with time {}".format(event_ids_times[0][-1])
+                print "current time is {}".format(current)
                 if current > event_ids_times[0][-1]:
                     # then it's time to push
                     print "time to push", event_ids_times[0][1]
                     event_id = event_ids_times[0][0]
                     past_events.append(event_ids_times[0])
                     event_ids_times.pop(0)
+                    print "event id is ", event_id
                     send_notif(silent=True, event_id=event_id)
             else:
                 print "no events left"

@@ -61,7 +61,7 @@ def get_event_info():
             "name": x["summary"], 
             "start_time": x["start"]["dateTime"][:-6],
             "recurring_event_color": x["recurring_event_color"] if "recurringEventID" in events else None,
-            "location": x["location"]
+            "location": x["location"] if "location" in x.keys else "1350 Chestnut Street, Philadelphia, PA, United States"
         }, events)
     return event_ids_times
 
