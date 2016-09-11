@@ -32,7 +32,6 @@ class AppThread(Thread):
 class PushThread(Thread):
 
     def run(self):
-        past_events = []
         EventLock.acquire()
         # a list of tuples (id, name, time)
         event_ids_times = OneEventToRuleThemAll.retrieve_event_ids_times()
@@ -53,7 +52,11 @@ class PushThread(Thread):
                     # then it's time to push
                     print "time to push", event_ids_times[0][1]
                     event_id = event_ids_times[0][0]
-                    past_events.append(event_ids_times[0])
+
+                    EventLock.acquire()
+                    OneEventToRuleThemAll.push_to_past_events(event_ids_times[0])
+                    EventLock.release()
+                    
                     event_ids_times.pop(0)
                     print "event id is ", event_id
                     send_notif(silent=True, event_id=event_id)

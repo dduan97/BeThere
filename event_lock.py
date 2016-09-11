@@ -10,6 +10,7 @@ class EventInfo(object):
     def __init__(self):
         self.event_ids_times = None
         self.event_info = None
+        self.past_events = []
 
     # sets self.event_ids_times
     def retrieve_event_ids_times(self):
@@ -63,7 +64,15 @@ class EventInfo(object):
             if item[0] == event_id:
                 # get the lat/long and return it
                 return item[1]
+        # now search through past events
+        for item in self.past_events:
+            print item[0]
+            if item[0] == event_id:
+                return item[1]
         return None
+
+    def push_to_past_events(self, event_tuple_i_think):
+        self.past_events.append(event_tuple_i_think)
 
 # now we instantiate an object of this class
 OneEventToRuleThemAll = EventInfo()
