@@ -57,8 +57,11 @@ def check_location(event_id):
 
     late_event = "You were late to event " + event_name if event_name else "You were late to your event"
     donate_charity = " and donated to " + charity
+    str_to_send = late_event + donate_charity
 
     # now actually donate the money
+    # donate(1, charity)
+    # print "donated money"
 
     send_notif(message=str_to_send, silent=False)
     return "false"
