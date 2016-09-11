@@ -7,6 +7,7 @@ from bethere import app
 from event_push import send_notif
 from my_calendar import get_events
 
+import os
 def get_event_ids_times():
     events = get_events()
     current = datetime.datetime.now()
@@ -22,8 +23,8 @@ class AppThread(Thread):
 
     def run(self):
         print "running app thread"
-        app.run()
-
+        port = int(os.environ.get('PORT', 5000))
+        app.run(host='0.0.0.0', port=port, use_reloader=False)
 
 class PushThread(Thread):
 
