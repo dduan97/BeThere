@@ -43,7 +43,7 @@ def check_location(event_id):
     event_coords = (coords["latitude"], coords["longitude"])
     current_coords = (float(lat), float(lon))
 
-    if vincenty(event_coords, current_coords).feet < 400:
+    if vincenty(event_coords, current_coords).feet < 6000:
         # then we don't do anything
         return "true"
     # then we send a push and then send payment
@@ -60,8 +60,8 @@ def check_location(event_id):
     str_to_send = late_event + donate_charity
 
     # now actually donate the money
-    # donate(1, charity)
-    # print "donated money"
+    donate(1, charity)
+    print "donated money"
 
     send_notif(message=str_to_send, silent=False)
     return "false"
