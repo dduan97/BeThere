@@ -74,5 +74,6 @@ def donate(amount, charity_nickname):
             return False
         # was successful, return true
         else:
+            print (response.status_code)
             return True
         
