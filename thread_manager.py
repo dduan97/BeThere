@@ -6,8 +6,11 @@ import time
 from bethere import app
 from event_push import send_notif
 from my_calendar import get_events
+from event_lock import EventLock
 
 import os
+
+# this gives you only id name and datetime for the events
 def get_event_ids_times():
     events = get_events()
     current = datetime.datetime.now()
@@ -50,6 +53,8 @@ class PushThread(Thread):
                     past_events.append(event_ids_times[0])
                     event_ids_times.pop(0)
                     send_notif(silent=True)
+                    # now we update the event info thing
+
                     # events = get_events()
                     # print "pulled {} events".format(len(events))
                     # # list of (id, datetime) for all the events

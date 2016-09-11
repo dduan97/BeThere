@@ -3,6 +3,7 @@ from flask import Flask, request
 from geopy.distance import vincenty
 from geopy.geocoders import Nominatim
 from my_calendar import get_events
+from event_lock import EventLock
 import json
 app = Flask(__name__)
 
@@ -18,13 +19,16 @@ def hello():
 #   latitude: float
 #   longitude: float
 # }
-@app.route("/event/<int:event_id>/location", methods=['POST'])
+@app.route("/event/<event_id>/location", methods=['POST'])
 def check_location(event_id):
     body = json.loads(request.data)
+
     print body, type(body)
     lat = body["latitude"]
     lon = body["longitude"]
-    # something with gcal here
+
+
+
     event_coords = (40.7128, -74.0059)
     current_coords = (float(lat), float(lon))
 
