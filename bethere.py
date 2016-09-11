@@ -43,8 +43,8 @@ def check_location(event_id):
         # then we don't do anything
         return "true"
     # then we send a push and then send payment
-    str_to_send = "You were late to "
-    send_notif(msg="You missed")
+    str_to_send = "You were late to " + OneEventToRuleThemAll.get_name_by_event_id(event_id)
+    send_notif(message=str_to_send, silent=False)
     return "false"
 
 # post a new charity/money amount configuration
