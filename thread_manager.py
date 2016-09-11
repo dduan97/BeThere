@@ -13,7 +13,7 @@ import os
 # this gives you only id name and datetime for the events
 def get_event_ids_times():
     events = get_events()
-    current = datetime.datetime.now()
+    current = datetime.datetime.utcnow() - datetime.timedelta(hours=4)
     # list of (id, name, datetime) for all the events
     event_ids_times = map(lambda x: (x["id"], x["summary"], datetime.datetime.strptime(x["start"]["dateTime"][:-6], "%Y-%m-%dT%H:%M:%S" )), events)
     # sort by datetime
@@ -32,8 +32,8 @@ class AppThread(Thread):
 class PushThread(Thread):
 
     def run(self):
-        past_events = []
         EventLock.acquire()
+        # a list of tuples (id, name, time)
         event_ids_times = OneEventToRuleThemAll.retrieve_event_ids_times()
         EventLock.release()
 
@@ -42,28 +42,33 @@ class PushThread(Thread):
             print "running push thread"
             time.sleep(30)
             # get the current time and the time of the first event
-            current = datetime.datetime.now()
+            current = datetime.datetime.utcnow() - datetime.timedelta(hours=4)
             print "getting event"
             print event_ids_times
             if event_ids_times:
-                print "checking event"
+                print "checking event with time {}".format(event_ids_times[0][-1])
+                print "current time is {}".format(current)
                 if current > event_ids_times[0][-1]:
                     # then it's time to push
                     print "time to push", event_ids_times[0][1]
-                    past_events.append(event_ids_times[0])
-                    event_ids_times.pop(0)
-                    send_notif(silent=True)
-                    # now we update the event info thing
+                    event_id = event_ids_times[0][0]
+
                     EventLock.acquire()
-                    event_ids_times = OneEventToRuleThemAll.retrieve_event_ids_times()
+                    OneEventToRuleThemAll.push_to_past_events(event_ids_times[0])
                     EventLock.release()
+                    
+                    event_ids_times.pop(0)
+                    print "event id is ", event_id
+                    send_notif(silent=True, event_id=event_id)
             else:
                 print "no events left"
-                # now we get the new events
-                EventLock.acquire()
-                event_ids_times = OneEventToRuleThemAll.retrieve_event_ids_times()
-                EventLock.release()
                 print event_ids_times
+
+            EventLock.acquire()
+            print "checking for new events"
+            event_ids_times = OneEventToRuleThemAll.retrieve_event_ids_times()
+            print "{} events found".format(len(event_ids_times))
+            EventLock.release()
 
 
 # start the two threads
