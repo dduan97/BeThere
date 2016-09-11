@@ -57,8 +57,8 @@ class EventInfo(object):
         return None
 
     def get_name_by_event_id(self, event_id):
-        print "future events: ", self.event_ids_times()
-        print "past events: ", self.past_events()
+        print "future events: ", self.event_ids_times
+        print "past events: ", self.past_events
         self.retrieve_event_info()
         # now we search through and look for event id
         for item in self.event_ids_times:
