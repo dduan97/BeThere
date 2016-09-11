@@ -3,7 +3,7 @@ from flask import Flask, request
 from geopy.distance import vincenty
 from geopy.geocoders import Nominatim
 from my_calendar import get_events
-from event_lock import EventLock
+from event_lock import EventLock, OneEventToRuleThemAll
 import json
 app = Flask(__name__)
 
@@ -19,17 +19,22 @@ def hello():
 #   latitude: float
 #   longitude: float
 # }
+# request.args for url query parameters
 @app.route("/event/<event_id>/location", methods=['POST'])
 def check_location(event_id):
-    body = json.loads(request.data)
 
-    print body, type(body)
-    lat = body["latitude"]
-    lon = body["longitude"]
+    lat = request.args.get("latitude")
+    lon = request.args.get("longitude")
+    print lat,lon
 
+    # now we set the lock and get the event thing based on the whatever
+    EventLock.acquire()
+    coords = OneEventToRuleThemAll.get_location_by_event_id(event_id)
+    EventLock.release()
+    if not coords:
+        return "None"
 
-
-    event_coords = (40.7128, -74.0059)
+    event_coords = (coords["latitude"], coords["longitude"])
     current_coords = (float(lat), float(lon))
 
     if vincenty(event_coords, current_coords).feet < 100:

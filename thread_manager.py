@@ -6,7 +6,7 @@ import time
 from bethere import app
 from event_push import send_notif
 from my_calendar import get_events
-from event_lock import EventLock
+from event_lock import EventLock, OneEventToRuleThemAll
 
 import os
 
@@ -33,9 +33,9 @@ class PushThread(Thread):
 
     def run(self):
         past_events = []
-        events = get_events()
-        past_events = []
-        event_ids_times = get_event_ids_times()
+        EventLock.acquire()
+        event_ids_times = OneEventToRuleThemAll.retrieve_event_ids_times()
+        EventLock.release()
 
         print "starting with {} events".format(len(event_ids_times))
         while True:
@@ -54,18 +54,15 @@ class PushThread(Thread):
                     event_ids_times.pop(0)
                     send_notif(silent=True)
                     # now we update the event info thing
-
-                    # events = get_events()
-                    # print "pulled {} events".format(len(events))
-                    # # list of (id, datetime) for all the events
-                    # event_ids_times = map(lambda x: (x["id"], x["summary"], datetime.datetime.strptime(x["start"]["dateTime"][:-6], "%Y-%m-%dT%H:%M:%S" )), events)
-                    # # now we sort it by the datetime
-                    # event_ids_times = sorted(event_ids_times, key=lambda x: x[-1])
-                    # print event_ids_times
+                    EventLock.acquire()
+                    event_ids_times = OneEventToRuleThemAll.retrieve_event_ids_times()
+                    EventLock.release()
             else:
                 print "no events left"
                 # now we get the new events
-                event_ids_times = get_event_ids_times()
+                EventLock.acquire()
+                event_ids_times = OneEventToRuleThemAll.retrieve_event_ids_times()
+                EventLock.release()
                 print event_ids_times
 
 
