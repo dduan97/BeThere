@@ -82,7 +82,7 @@ def send_events():
         print item["location"]
         location = geolocator.geocode(item["location"])
         if not location:
-            print item["location name"], "fucked up geopy..."
+            print item["location_name"], "fucked up geopy..."
             location = geolocator.geocode("1350 Chestnut Street, Philadelphia, PA, United States")
         item["location"] = {    
             "latitude": location.latitude,
