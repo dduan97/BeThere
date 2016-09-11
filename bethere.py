@@ -8,6 +8,7 @@ from event_push import send_notif
 from pymongo_connection import getCharity
 from pay.payment import donate
 from twitter import tweetpunishment
+from tweepy import TweepError
 
 import json
 
@@ -70,7 +71,10 @@ def check_location(event_id):
         event_name = "my event"
 
     # and post to twitter
-    tweetpunishment(event_name, 1, charity)
+    try: 
+        tweetpunishment(event_name, 1, charity)
+    except TweepError:
+        pass
     print "twat"
 
     send_notif(message=str_to_send, silent=False)
