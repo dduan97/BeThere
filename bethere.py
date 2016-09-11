@@ -65,6 +65,13 @@ def check_location(event_id):
     donate(1, charity)
     print "donated money"
 
+    if not event_name:
+        event_name = "my event"
+
+    # and post to twitter
+    tweetpunishment(event_name, 1, charity)
+    print "twat"
+
     send_notif(message=str_to_send, silent=False)
     return "false"
 
