@@ -43,7 +43,7 @@ def check_location(event_id):
     event_coords = (coords["latitude"], coords["longitude"])
     current_coords = (float(lat), float(lon))
 
-    if vincenty(event_coords, current_coords).feet < 100:
+    if vincenty(event_coords, current_coords).feet < 400:
         # then we don't do anything
         return "true"
     # then we send a push and then send payment
