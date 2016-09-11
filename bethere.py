@@ -47,7 +47,7 @@ def check_location(event_id):
     EventLock.acquire()
     event_name = OneEventToRuleThemAll.get_name_by_event_id(event_id)
     EventLock.release()
-    str_to_send = "You were late to event " + 
+    str_to_send = "You were late to event " + event_name if event name else "You were late to your event"
     send_notif(message=str_to_send, silent=False)
     return "false"
 
