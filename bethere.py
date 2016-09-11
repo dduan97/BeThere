@@ -5,7 +5,7 @@ from geopy.geocoders import Nominatim
 from my_calendar import get_events
 from event_lock import EventLock, OneEventToRuleThemAll
 from event_push import send_notif
-from pymongo_connection import getCharity
+from pymongo_connection import getCharity, getUserInfo
 from pay.payment import donate
 from twitter import tweetpunishment
 from tweepy import TweepError
@@ -130,6 +130,14 @@ def send_events():
     print event_info
     return json.dumps(event_info)
 
+@app.route("/balance", methods=['GET'])
+def send_balance():
+    donated = getUserInfo("donated")
+    donated_str = "${:,.2f}".format(donated)
+    result_json = {
+        "donated": donated_str
+    }
+    return json.dumps(result_json)
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))

@@ -62,4 +62,3 @@ def update(field, newvalue):
             { '$set': {field: newvalue}}
     )
     print (result.matched_count)
-update("donated", 20)
