@@ -5,7 +5,7 @@ from geopy.geocoders import Nominatim
 from my_calendar import get_events
 from event_lock import EventLock, OneEventToRuleThemAll
 from event_push import send_notif
-from pymongo_connection import getCharity, getUserInfo
+import pymongo_connection
 from pay.payment import donate
 from twitter import tweetpunishment
 from tweepy import TweepError
@@ -57,7 +57,7 @@ def check_location(event_id):
     event_name = OneEventToRuleThemAll.get_name_by_event_id(event_id)
     EventLock.release()
 
-    charity = getCharity()
+    charity = pymongo_connection.getCharity()
 
     late_event = "You were late to event " + event_name if event_name else "You were late to your event"
     donate_charity = " and donated to " + charity
@@ -66,6 +66,10 @@ def check_location(event_id):
     # now actually donate the money
     donate(1, charity)
     print "donated money"
+
+    # update the donated amount
+    donated = pymongo_connection.getUserInfo("donated")
+    pymongo_connection.update("donated", donated+1)
 
     if not event_name:
         event_name = "my event"
@@ -132,7 +136,7 @@ def send_events():
 
 @app.route("/balance", methods=['GET'])
 def send_balance():
-    donated = getUserInfo("donated")
+    donated = pymongo_connection.getUserInfo("donated")
     donated_str = "${:,.2f}".format(donated)
     result_json = {
         "donated": donated_str
