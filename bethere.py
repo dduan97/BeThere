@@ -70,8 +70,8 @@ def send_events():
     recurring_ids = list(set([x["recurring_event_color"] for x in event_info]))
 
     for item in event_info:
-        print item
         item["recurring_event_color"] = recurring_ids.index(item["recurring_event_color"])
+        item["location_name"] = item["location"]
         # map the locations to the coords
         geolocator = Nominatim()
         print item["location"]
