@@ -30,7 +30,6 @@ class EventInfo(object):
         events = get_events()
 
         geolocator = Nominatim()
-
         # list of (id, name, datetime) for all the events
         event_ids_times = map(lambda x: {
                 "id": x["id"], 
@@ -38,8 +37,8 @@ class EventInfo(object):
                 "start_time": x["start"]["dateTime"][:-6],
                 "recurring_event_color": x["recurring_event_color"] if "recurringEventID" in events else None,
                 "location": {
-                    "latitude": geolocator.geocode(x["location"]).latitude,
-                    "longitude": geolocator.geocode(x["location"]).longitude
+                    "latitude": geolocator.geocode(x["location"]).latitude if geolocator.geocode(x["location"]) else 39.9506873333333,
+                    "longitude": geolocator.geocode(x["location"]).longitude if geolocator.geocode(x["location"]) else -75.1632256666667
                     }
             }, events)
         self.event_info = event_ids_times

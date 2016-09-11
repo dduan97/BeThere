@@ -81,7 +81,10 @@ def send_events():
         geolocator = Nominatim()
         print item["location"]
         location = geolocator.geocode(item["location"])
-        item["location"] = {
+        if not location:
+            print item["location name"], "fucked up geopy..."
+            location = geolocator.geocode("1350 Chestnut Street, Philadelphia, PA, United States")
+        item["location"] = {    
             "latitude": location.latitude,
             "longitude": location.longitude
         }
