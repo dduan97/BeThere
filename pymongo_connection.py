@@ -61,4 +61,3 @@ def update(field, newvalue):
             {'name' : 'Bill Clinton'},
             { '$set': {field: newvalue}}
     )
-    print (result.matched_count)

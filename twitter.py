@@ -18,5 +18,3 @@ def tweetpunishment(eventname, dollaramount, charityname):
   api = get_api(cfg)
   tweet = "I was just late to " + eventname + " and had to donate "+ '${:,.2f}'.format(dollaramount) + " to " + charityname + "."
   status = api.update_status(status=tweet) 
-
-tweetpunishment("class", 5, "WWF")
