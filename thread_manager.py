@@ -48,7 +48,7 @@ class PushThread(Thread):
                     print "time to push", event_ids_times[0][1]
                     past_events.append(event_ids_times[0])
                     event_ids_times.pop(0)
-                    send_notif("test event time up thing...fuck yeah!")
+                    send_notif(silent=True)
                     # events = get_events()
                     # print "pulled {} events".format(len(events))
                     # # list of (id, datetime) for all the events

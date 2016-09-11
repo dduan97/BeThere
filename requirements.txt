@@ -1,6 +1,7 @@
 flask
 Flask-MongoAlchemy
-apns
+pyapns
 geopy
 google-api-python-client
 requests
+service_identity

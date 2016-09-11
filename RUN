@@ -1,1 +1,2 @@
+twistd web --class=pyapns.server.APNSServer --port=7077
 export APIKEY=bc90c38e6fc74dd414d1ea5fc3e41d68 && python thread_manager.py

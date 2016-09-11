@@ -1,2 +1,4 @@
 *.pem
 *.pyc
+twistd.log
+twistd.pid
