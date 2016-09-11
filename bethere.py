@@ -43,7 +43,11 @@ def check_location(event_id):
         # then we don't do anything
         return "true"
     # then we send a push and then send payment
-    str_to_send = "You were late to " + OneEventToRuleThemAll.get_name_by_event_id(event_id)
+    print "event id that we're looking for the name for: ", event_id
+    EventLock.acquire()
+    event_name = OneEventToRuleThemAll.get_name_by_event_id(event_id)
+    EventLock.release()
+    str_to_send = "You were late to event " + 
     send_notif(message=str_to_send, silent=False)
     return "false"
 
