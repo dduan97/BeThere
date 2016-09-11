@@ -34,6 +34,7 @@ class PushThread(Thread):
     def run(self):
         past_events = []
         EventLock.acquire()
+        # a list of tuples (id, name, time)
         event_ids_times = OneEventToRuleThemAll.retrieve_event_ids_times()
         EventLock.release()
 
@@ -59,7 +60,9 @@ class PushThread(Thread):
                 print event_ids_times
 
             EventLock.acquire()
+            print "checking for new events"
             event_ids_times = OneEventToRuleThemAll.retrieve_event_ids_times()
+            print "{} events found".format(len(event_ids_times))
             EventLock.release()
 
 

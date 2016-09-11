@@ -13,6 +13,7 @@ class EventInfo(object):
 
     # sets self.event_ids_times
     def retrieve_event_ids_times(self):
+        print "EventInfo object retrieving events"
         events = get_events()
         current = datetime.datetime.now()
         # list of (id, name, datetime) for all the events
