@@ -37,8 +37,8 @@ def check_location(event_id):
     coords = OneEventToRuleThemAll.get_location_by_event_id(event_id)
     EventLock.release()
     if not coords:
-        print "could not find coordinates for event id ", event_id
-        return "None"
+        print "could not find coordinates for event id....shhhhhhhh....", event_id
+        return "true"
 
     event_coords = (coords["latitude"], coords["longitude"])
     current_coords = (float(lat), float(lon))
