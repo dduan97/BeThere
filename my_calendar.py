@@ -69,7 +69,6 @@ def get_events():
         calendarId='primary', timeMin=now, timeMax=tomorrow,singleEvents=True,
         orderBy='startTime').execute()
     events = eventsResult.get('items', [])
-    print type(events)
     if not events:
         return None
     else:
