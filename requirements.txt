@@ -6,5 +6,5 @@ google-api-python-client
 requests
 service_identity
 tweepy
-pymongo
+pymongo>=3.0
 
