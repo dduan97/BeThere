@@ -7,6 +7,7 @@ from event_lock import EventLock, OneEventToRuleThemAll
 from event_push import send_notif
 from pymongo_connection import getCharity
 from pay.payment import donate
+from twitter import tweetpunishment
 
 import json
 
